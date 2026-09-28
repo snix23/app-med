@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ru" data-skin="emerald">
+<html lang="ru" data-skin="aurora">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -40,6 +40,15 @@
   --ok:#2e9a4d;--okS:rgba(46,154,77,.13);--bad:#d44a3c;--badS:rgba(212,74,60,.11);--track:rgba(22,34,26,.1);
   --shadow:0 10px 30px rgba(40,70,45,.12),inset 0 1px 0 rgba(255,255,255,.7);color-scheme:light;
 }
+[data-skin="aurora"]{
+  --base:#05070f;--o1:rgba(66,120,255,.72);--o2:rgba(92,82,235,.42);--o3:rgba(28,78,214,.34);--netC:#8aa8ff;--netOp:.16;--ecg:#7fa6ff;
+  --glass:rgba(255,255,255,.06);--glass2:rgba(255,255,255,.12);--stroke:rgba(150,180,255,.16);--solid:#101a30;
+  --text:#eef2ff;--text2:rgba(226,233,255,.66);--text3:rgba(226,233,255,.36);
+  --accent:#6f9dff;--ink:#ffffff;--grad:linear-gradient(180deg,#4d84ff 0%,#2f57e6 100%);--bi:rgba(255,255,255,.24);
+  --ok:#5ee0a0;--okS:rgba(94,224,160,.15);--bad:#ff7a8a;--badS:rgba(255,122,138,.14);--track:rgba(255,255,255,.1);
+  --shadow:0 16px 40px rgba(0,4,24,.5),inset 0 1px 0 rgba(255,255,255,.08);color-scheme:dark;
+}
+[data-skin="aurora"] .net,[data-skin="aurora"] .ecg,[data-skin="aurora"] .grain{display:none}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 :root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
@@ -341,7 +350,7 @@ button:focus-visible,input:focus-visible,[role="button"]:focus-visible,a:focus-v
 .row .sub2{display:block;font-size:12px;color:var(--text3);margin-top:2px}
 .rowtx{padding:12px 0}
 .inp{flex:1;min-width:0;background:none;border:none;outline:none;text-align:right;color:var(--text2);font-size:16px}
-.skins{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;padding:10px}
+.skins{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;padding:10px}
 .sk{display:flex;flex-direction:column;align-items:center;gap:8px;padding:12px 2px;border-radius:18px;border:1.5px solid transparent;font-size:12px;font-weight:500;text-align:center;transition:background .2s,border-color .2s}
 .sk.on{border-color:var(--accent);background:var(--glass2)}
 .sk i{width:42px;height:42px;border-radius:50%;display:block;border:1px solid var(--stroke);box-shadow:0 4px 12px rgba(0,0,0,.2)}
@@ -603,13 +612,14 @@ const reduced=()=>window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce
 /* ================= storage & accounts ================= */
 const KEY="medcards_v3";
 const PROGRESS=["answers","correct","tests","perfect","tested","best","known","today","streak","lastDay","last","ach","slidesOk","blitzBest"];
-function freshDB(){return{session:null,accounts:{},device:{skin:"emerald",sound:true,haptics:true}};}
+function freshDB(){return{session:null,accounts:{},device:{skin:"aurora",sound:true,haptics:true}};}
 function loadDB(){try{const v=JSON.parse(localStorage.getItem(KEY)||"null");if(v&&v.accounts)return Object.assign(freshDB(),v);}catch(e){}return freshDB();}
 let DB=loadDB();
 function acctDefault(email){return{email,name:"",course:"",skin:DB.device.skin,goal:20,sound:DB.device.sound,haptics:DB.device.haptics,plan:"free",planKind:null,planUntil:null,autoRenew:false,answers:0,correct:0,tests:0,perfect:0,tested:{},best:{},known:{},today:{date:"",count:0},streak:0,lastDay:"",last:null,ach:[],slidesOk:{},blitzBest:0,decks:[],viewCourse:1,created:Date.now()};}
 let A=null;
 function bindA(){A=null;if(DB.session&&DB.accounts[DB.session]){DB.accounts[DB.session]=Object.assign(acctDefault(DB.session),DB.accounts[DB.session]);A=DB.accounts[DB.session];}}
 bindA();
+if(!DB.themeMigrated){DB.device.skin="aurora";if(A)A.skin="aurora";DB.themeMigrated=1;save();}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(DB));return true;}catch(e){return false;}}
 const isGuest=()=>DB.session==="__guest";
 const isPro=()=>!!A&&A.plan==="pro"&&(!A.planUntil||A.planUntil>Date.now());
@@ -837,6 +847,8 @@ function vSubject(){
     <span class="grow"><span class="t1">${s.sections?"Экзаменационный микс":"Тест"}</span><span class="t2">${pro?`${s.tests.length} ${plural(s.tests.length,QW)}, в тесте до 20 случайных`:`Доступно ${at} из ${s.tests.length}, с разбором ответов`}</span></span><span class="chev">${ic("right",18,2)}</span></button>`:""}
   <button class="glass act" data-act="start-cards" data-arg="${s.id}"><span class="bub n">${ic("cards",22)}</span>
     <span class="grow"><span class="t1">Карточки</span><span class="t2">${pro?`${s.cards.length} ${plural(s.cards.length,TW)}, переворачивай и отмечай`:`Доступно ${acn} из ${s.cards.length} ${plural(s.cards.length,TW)}`}</span></span><span class="chev">${ic("right",18,2)}</span></button>
+  <button class="glass act" data-act="express" data-arg="${s.id}"><span class="bub n">${ic("shuffle",22)}</span>
+    <span class="grow"><span class="t1">Экспресс</span><span class="t2">20 случайных карточек для быстрого повторения</span></span><span class="chev">${ic("right",18,2)}</span></button>
   <div class="sec"><h3>Материалы</h3></div>
   <div class="glass list">
     ${(s.links||[]).map(l=>`<a class="row" href="${l.u}" target="_blank" rel="noopener"><span class="ri">${ic(l.i||"book",18)}</span><span class="grow rowtx">${esc(l.t)}${l.s?`<span class="sub2">${esc(l.s)}</span>`:""}</span><span class="chev">${ic("arrow",16,2)}</span></a>`).join("")}
@@ -901,14 +913,14 @@ function vCards(){
 function vCardsDone(){
   if(C.deck){const d=deckById(C.deck),n=C.order.length;return `<div class="result">
     <div class="ring big-ring">${ring(C.k/n,8)}<div class="rc"><b>${C.k}</b><small>из ${n} знаю</small></div></div>
-    <h1 class="display">Колода пройдена</h1><p class="sub">${esc(d.name)}, ${n} ${plural(n,CARDW)}</p>
+    <h1 class="display">${C.express?"Экспресс пройден":"Колода пройдена"}</h1><p class="sub">${esc(d.name)}, ${n} ${plural(n,CARDW)}</p>
     <div class="stats2"><div class="glass stat"><b>${C.k}</b><span>Знаю</span></div><div class="glass stat"><b>${C.l}</b><span>Ещё учу</span></div></div>
     <div class="btns"><button class="btn" data-act="study-deck" data-arg="${d.id}">Повторить колоду</button>
     <button class="btn ghost" data-act="open-deck" data-arg="${d.id}">К колоде</button></div></div>`;}
   const s=subById(C.sid),n=C.order.length;
   return `<div class="result">
     <div class="ring big-ring">${ring(C.k/n,8)}<div class="rc"><b>${C.k}</b><small>из ${n} знаю</small></div></div>
-    <h1 class="display">Колода пройдена</h1><p class="sub">${s.name}, ${n} ${plural(n,TW)}</p>
+    <h1 class="display">${C.express?"Экспресс пройден":"Колода пройдена"}</h1><p class="sub">${s.name}, ${n} ${plural(n,TW)}</p>
     <div class="stats2"><div class="glass stat"><b>${C.k}</b><span>Знаю</span></div><div class="glass stat"><b>${C.l}</b><span>Ещё учу</span></div></div>
     <div class="btns"><button class="btn" data-act="start-cards" data-arg="${s.id}">Повторить колоду</button>
     <button class="btn ghost" data-act="open-sub" data-arg="${s.id}">К предмету</button></div></div>`;
@@ -994,7 +1006,7 @@ function vProfile(){
 function devCard(){return `<div class="glass dev"><span class="dava">${ic("send",22,2)}</span><span class="grow"><span class="t2" style="margin:0">Дизайн и разработка</span><span class="t1">@snix23</span></span><a class="tg" href="https://t.me/snix23" target="_blank" rel="noopener">Написать</a></div>`;}
 function vSettings(){
   const pro=isPro();
-  const skins=[["emerald","Изумруд","linear-gradient(135deg,#1f3a2a,#b3cf9d)"],["clinic","Клиника","linear-gradient(135deg,#0b1a3a,#3f7bff 55%,#8fd8ff)"],["graphite","Графит","linear-gradient(135deg,#232426,#e5ef4b)"],["mist","Туман","linear-gradient(135deg,#f3f6f1,#5f8f68)"]];
+  const skins=[["emerald","Изумруд","linear-gradient(135deg,#1f3a2a,#b3cf9d)"],["clinic","Клиника","linear-gradient(135deg,#0b1a3a,#3f7bff 55%,#8fd8ff)"],["graphite","Графит","linear-gradient(135deg,#232426,#e5ef4b)"],["mist","Туман","linear-gradient(135deg,#f3f6f1,#5f8f68)"],["aurora","Аврора","linear-gradient(135deg,#0a1330,#5b8cff)"]];
   const acct=isGuest()
     ?`<button class="row accent" data-act="to-auth"><span class="ri">${ic("mail",18)}</span><span class="grow">Войти по почте</span><span class="chev">${ic("right",18,2)}</span></button>`
     :`<div class="row"><span class="ri">${ic("mail",18)}</span><span class="grow">Почта</span><span class="val">${esc(A.email)}</span></div>`;
@@ -1185,7 +1197,7 @@ function checkMulti(el){const q=T.qs[T.i];if(T.answered||T.sel.length!==q.a.leng
 function finishTest(){const n=T.qs.length,pct=Math.round(T.correct/n*100);A.tests++;if(pct===100)A.perfect++;let nb=false;
   if(!T.mix){A.tested[T.sid]=1;const bk=T.sec?T.sid+":"+T.sec:T.sid;const prev=A.best[bk];if(prev==null||pct>prev){nb=prev!=null;A.best[bk]=pct;}if(T.sec&&(A.best[T.sid]==null||pct>A.best[T.sid]))A.best[T.sid]=pct;}R_SEC=T.sec;
   save();R={pct,correct:T.correct,n,sid:T.sid,sec:T.sec,mix:T.mix,newBest:nb};go("result");if(pct>=85){sfx("achieve");confetti();}checkAch();}
-function startCards(sid){const s=subById(sid);C={sid,order:shuffle(availIdx(s,"cards")),i:0,k:0,l:0};A.last={sid,kind:"cards"};save();go("cards");}
+function startCards(sid,limit){const s=subById(sid);C={sid,express:!!limit,order:shuffle(availIdx(s,"cards")).slice(0,limit||1e9),i:0,k:0,l:0};A.last={sid,kind:"cards"};save();go("cards");}
 function cardAnswer(know){if(C.deck){const d=deckById(C.deck);d.cards[C.order[C.i]].k=know;if(know){C.k++;sfx("know");buzz(10);}else{C.l++;sfx("soft");}activity(1);save();if(C.i<C.order.length-1){C.i++;render(false);}else go("cardsDone");return;}const idx=C.order[C.i];const set=new Set(A.known[C.sid]||[]);if(know){set.add(idx);C.k++;sfx("know");buzz(10);}else{set.delete(idx);C.l++;sfx("soft");}
   A.known[C.sid]=[...set];activity(1);checkAch();if(C.i<C.order.length-1){C.i++;render(false);}else go("cardsDone");}
 function makeOpts(ans){const o=shuffle([ans,...shuffle(SLIDE_POOL.filter(x=>x!==ans)).slice(0,3)]);return{o,a:o.indexOf(ans)};}
@@ -1255,6 +1267,7 @@ document.addEventListener("click",e=>{
     case "next":nextQ();break;
     case "quit":quit();break;
     case "start-cards":startCards(g);break;
+    case "express":startCards(g,20);break;
     case "flip":el.classList.toggle("flipped");sfx("flip");buzz(6);break;
     case "know":cardAnswer(true);break;
     case "again":cardAnswer(false);break;
