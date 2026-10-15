@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="ru" data-skin="aurora">
+<html lang="ru" data-skin="crimson">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <link rel="manifest" href="manifest.webmanifest">
-<meta name="theme-color" content="#0d1512">
+<meta name="theme-color" content="#0a0406">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -54,6 +54,14 @@
   --accent:#6f9dff;--ink:#ffffff;--grad:linear-gradient(180deg,#4d84ff 0%,#2f57e6 100%);--bi:rgba(255,255,255,.24);
   --ok:#5ee0a0;--okS:rgba(94,224,160,.15);--bad:#ff7a8a;--badS:rgba(255,122,138,.14);--track:rgba(255,255,255,.1);
   --shadow:0 16px 40px rgba(0,4,24,.5),inset 0 1px 0 rgba(255,255,255,.08);color-scheme:dark;
+}
+[data-skin="crimson"]{
+  --base:#070203;--o1:rgba(235,28,45,.58);--o2:rgba(150,12,30,.46);--o3:rgba(70,4,16,.4);--netC:#ff5a66;--netOp:.12;--ecg:#ff5a62;
+  --glass:rgba(255,255,255,.12);--glass2:rgba(255,255,255,.19);--stroke:rgba(255,255,255,.26);--solid:#241619;
+  --text:#fdf2f3;--text2:rgba(253,242,243,.66);--text3:rgba(253,242,243,.4);
+  --accent:#ff3b47;--ink:#ffffff;--grad:linear-gradient(180deg,#ff3b47 0%,#d81228 100%);--bi:rgba(255,255,255,.22);
+  --ok:#3ddc8a;--okS:rgba(61,220,138,.15);--bad:#ff6a5a;--badS:rgba(255,106,90,.15);--track:rgba(255,255,255,.12);
+  --shadow:0 18px 44px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.1);color-scheme:dark;
 }
 [data-skin="aurora"] .net,[data-skin="aurora"] .ecg,[data-skin="aurora"] .grain{display:none}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
@@ -509,10 +517,10 @@ button:focus-visible,input:focus-visible,[role="button"]:focus-visible,a:focus-v
 .reftab td,.reftab th{text-align:left;padding:8px 10px;border-bottom:1px solid var(--stroke);color:var(--text2);vertical-align:top}
 .reftab th{color:var(--text3);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.03em}
 .reftab td:first-child{color:var(--text);font-weight:600;white-space:nowrap}
-.step{counter-reset:none}
-.step li{padding-left:34px;margin-bottom:10px}
-.step li:before{content:counter(stepc);counter-increment:stepc;left:0;top:0;width:22px;height:22px;border-radius:50%;background:var(--glass2);border:1px solid var(--stroke);color:var(--accent);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center}
-ol.step{counter-reset:stepc;list-style:none;padding:0;margin:0}
+.nstep li b{color:var(--text);font-weight:600}
+.nstep li{position:relative;padding-left:34px;margin-bottom:10px;color:var(--text2);font-size:14px;line-height:1.5}
+.nstep li:before{position:absolute;content:counter(stepc);counter-increment:stepc;left:0;top:1px;width:22px;height:22px;border-radius:50%;background:var(--glass2);border:1px solid var(--stroke);color:var(--accent);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center}
+ol.nstep{counter-reset:stepc;list-style:none;padding:0;margin:0 0 8px}
 .badge{display:inline-block;padding:2px 9px;border-radius:99px;background:var(--glass2);border:1px solid var(--stroke);color:var(--accent);font-size:12px;font-weight:600;margin:0 4px 4px 0}
 
 /* слоты под картинки */
@@ -575,6 +583,16 @@ ol.step{counter-reset:stepc;list-style:none;padding:0;margin:0}
 .opt.sm{padding:10px 12px;font-size:14px;border-radius:14px;margin-bottom:6px;pointer-events:none}
 .exrev-e{margin:8px 0 0;color:var(--text2);font-size:13px;line-height:1.5}
 
+
+.info-box{padding:16px 18px;display:flex;flex-direction:column;gap:3px}
+.info-box .t1{font-weight:600;color:var(--text)}
+.info-box .t2{color:var(--text2);font-size:14px;line-height:1.4}
+
+.tcard{display:flex;flex-direction:column;gap:4px;width:100%;padding:13px 16px;margin-bottom:8px;text-align:left}
+.tcrow{display:flex;align-items:baseline;justify-content:space-between;gap:10px}
+.tct{font-weight:600;color:var(--text);font-size:15px}
+.tcs{color:var(--accent);font-size:12px;font-weight:600;flex:none;white-space:nowrap}
+.tcd{color:var(--text2);font-size:13px;line-height:1.4;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 </style>
 </head>
 <body>
@@ -592,6 +610,7 @@ ol.step{counter-reset:stepc;list-style:none;padding:0;margin:0}
 <script>
 /* ================= icons ================= */
 const ICONS={
+  pharm:'<path d="M10.5 20.5 20.5 10.5a5 5 0 0 0-7-7l-10 10a5 5 0 0 0 7 7Z"/><path d="m8.5 8.5 7 7"/>',
   calc:'<rect x="5" y="3" width="14" height="18" rx="2.5"/><rect x="8" y="6" width="8" height="3" rx="1"/><path d="M9 13h0M12 13h0M15 13h0M9 16.5h0M12 16.5h0M15 16.5h0"/>',
   steth:'<path d="M6 3v5a4 4 0 0 0 8 0V3"/><path d="M10 15v1a5 5 0 0 0 10 0v-3"/><circle cx="20" cy="11" r="1.6"/>',
   skills:'<rect x="5" y="4" width="14" height="17" rx="2.5"/><path d="M9 4V3h6v1"/><path d="M8.5 10l1.5 1.5L13 8"/><path d="M8.5 16l1.5 1.5L13 14"/>',
@@ -686,9 +705,14 @@ const SLIDES=[
   {id:"osteon",name:"Компактная костная ткань",draw:drawOsteon,e:"Видны остеоны: костные пластинки кольцами вокруг центрального канала, между пластинками лакуны остеоцитов."},
   {id:"blood",name:"Мазок крови",draw:drawBlood,e:"Много безъядерных эритроцитов со светлым центром, в центре поля нейтрофил с сегментированным ядром."},
   {id:"hyaline",name:"Гиалиновый хрящ",draw:drawHyaline,e:"Хондроциты лежат группами в лакунах (изогенные группы), вокруг них базофильный территориальный матрикс, сверху надхрящница."},
-  {id:"muscle",name:"Скелетная мышечная ткань",draw:drawMuscle,e:"Длинные волокна с поперечной исчерченностью, ядра лежат по периферии волокон."}
+  {id:"muscle",name:"Скелетная мышечная ткань",draw:drawMuscle,e:"Длинные волокна с поперечной исчерченностью, ядра лежат по периферии волокон."},
+  {id:"spongy",name:"Губчатая костная ткань",draw:drawSpongy,e:"Костные балки (трабекулы) образуют сеть, между ними ячейки с костным мозгом."},
+  {id:"elastic",name:"Эластический хрящ",draw:drawElastic,e:"Хондроциты в лакунах, в матриксе густая сеть тёмных эластических волокон."},
+  {id:"loose",name:"Рыхлая соединительная ткань",draw:drawLoose,e:"Беспорядочно лежащие коллагеновые и эластические волокна, между ними фибробласты."},
+  {id:"cardiac",name:"Сердечная мышечная ткань",draw:drawCardiac,e:"Исчерченные волокна с ядром в центре, соединены тёмными вставочными дисками."},
+  {id:"epith",name:"Многослойный плоский эпителий",draw:drawEpith,e:"Клетки лежат слоями: в глубине мелкие, к поверхности уплощаются; снизу базальная мембрана."}
 ];
-const SLIDE_POOL=["Компактная костная ткань","Губчатая костная ткань","Гиалиновый хрящ","Эластический хрящ","Мазок крови","Рыхлая соединительная ткань","Скелетная мышечная ткань","Сердечная мышечная ткань"];
+const SLIDE_POOL=["Компактная костная ткань","Губчатая костная ткань","Гиалиновый хрящ","Эластический хрящ","Мазок крови","Рыхлая соединительная ткань","Скелетная мышечная ткань","Сердечная мышечная ткань","Многослойный плоский эпителий"];
 const FREE_SLIDES=2;
 
 const BONE=[
@@ -708,7 +732,7 @@ const BLITZ=[
   ["Мезотелий выстилает серозные оболочки",true],["Фибробласты синтезируют коллаген",true]
 ];
 
-const PLANS={month:{n:"Месяц",p:199,s:"199 ₽ каждый месяц",days:30},year:{n:"Год",p:1190,s:"около 99 ₽ в месяц",days:365}};
+const PLANS={month:{n:"Месяц",p:99,s:"99 ₽ в месяц",days:30},year:{n:"Год",p:588,s:"49 ₽ в месяц, оплата за год",days:365}};
 const FEATS=["Все тесты и термины по каждому предмету","Свои колоды: карточки с фото и импорт списком из конспекта","Полная коллекция препаратов под микроскопом","Режим Блиц на время","Новые предметы и вопросы каждый месяц","Прогресс сохраняется за почтой на любом устройстве"];
 
 /* ================= utils ================= */
@@ -728,14 +752,14 @@ const reduced=()=>window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce
 /* ================= storage & accounts ================= */
 const KEY="medcards_v3";
 const PROGRESS=["answers","correct","tests","perfect","tested","best","known","today","streak","lastDay","hist","last","ach","slidesOk","blitzBest"];
-function freshDB(){return{session:null,accounts:{},device:{skin:"aurora",sound:true,haptics:true}};}
+function freshDB(){return{session:null,accounts:{},device:{skin:"crimson",sound:true,haptics:true}};}
 function loadDB(){try{const v=JSON.parse(localStorage.getItem(KEY)||"null");if(v&&v.accounts)return Object.assign(freshDB(),v);}catch(e){}return freshDB();}
 let DB=loadDB();
 function acctDefault(email){return{email,name:"",course:"",skin:DB.device.skin,goal:20,sound:DB.device.sound,haptics:DB.device.haptics,plan:"free",planKind:null,planUntil:null,autoRenew:false,answers:0,correct:0,tests:0,perfect:0,tested:{},best:{},known:{},today:{date:"",count:0},streak:0,lastDay:"",last:null,ach:[],slidesOk:{},blitzBest:0,decks:[],viewCourse:1,created:Date.now()};}
 let A=null;
 function bindA(){A=null;if(DB.session&&DB.accounts[DB.session]){DB.accounts[DB.session]=Object.assign(acctDefault(DB.session),DB.accounts[DB.session]);A=DB.accounts[DB.session];}}
 bindA();
-if(!DB.themeMigrated){DB.device.skin="aurora";if(A)A.skin="aurora";DB.themeMigrated=1;save();}
+if(DB.themeMigrated!==2){DB.device.skin="crimson";if(A)A.skin="crimson";DB.themeMigrated=2;save();}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(DB));return true;}catch(e){return false;}}
 const isGuest=()=>DB.session==="__guest";
 const isPro=()=>!!A&&A.plan==="pro"&&(!A.planUntil||A.planUntil>Date.now());
@@ -830,6 +854,37 @@ function drawMuscle(){const R=rng(51);let s=`<rect width="300" height="300" fill
   for(let y=6;y<300;y+=38){const h=30;s+=`<rect x="-10" y="${y}" width="320" height="${h}" rx="14" fill="#e48ba4"/>`;for(let x=0;x<300;x+=5){s+=`<line x1="${x}" y1="${y+3}" x2="${x}" y2="${y+h-3}" stroke="${(x/5)%2?"#c95f7f":"#eea9bc"}" stroke-width="1.6"/>`;}
     for(let k=0;k<3;k++){const top=R()>.5;s+=`<ellipse cx="${(20+R()*260).toFixed(0)}" cy="${top?y+4:y+h-4}" rx="10" ry="2.8" fill="#55306e"/>`;}}
   return s;}
+function drawSpongy(){const R=rng(71);let s=`<rect width="300" height="300" fill="#efd7de"/>`;
+  for(let i=0;i<7;i++){const y=R()*300;s+=`<path d="M-10 ${y.toFixed(0)} Q150 ${(y+R()*80-40).toFixed(0)} 310 ${(y+R()*60-30).toFixed(0)}" stroke="#d98aa0" stroke-width="${(14+R()*10).toFixed(0)}" fill="none" stroke-linecap="round" opacity=".9"/>`;}
+  for(let i=0;i<5;i++){const x=R()*300;s+=`<path d="M${x.toFixed(0)} -10 Q${(x+R()*80-40).toFixed(0)} 150 ${(x+R()*60-30).toFixed(0)} 310" stroke="#cf7d95" stroke-width="${(12+R()*8).toFixed(0)}" fill="none" stroke-linecap="round" opacity=".85"/>`;}
+  for(let k=0;k<30;k++){s+=`<ellipse cx="${(R()*300).toFixed(0)}" cy="${(R()*300).toFixed(0)}" rx="3" ry="1.6" fill="#7a3b5a" opacity=".7"/>`;}
+  return s;}
+function drawElastic(){const R=rng(83);let s=`<rect width="300" height="300" fill="#d7c6e8"/>`;
+  for(let i=0;i<42;i++){const y=R()*300;s+=`<path d="M-10 ${y.toFixed(0)} Q${(60+R()*60).toFixed(0)} ${(y+R()*24-12).toFixed(0)} 150 ${(y+R()*20-10).toFixed(0)} T310 ${(y+R()*20-10).toFixed(0)}" stroke="#5a3a78" stroke-width="1.3" fill="none" opacity=".55"/>`;}
+  const G=[];let t=0;while(G.length<10&&t<2000){t++;const x=30+R()*240,y=30+R()*240;if(G.some(g=>Math.hypot(g[0]-x,g[1]-y)<62))continue;G.push([x,y]);}
+  G.forEach(([x,y])=>{s+=`<circle cx="${x.toFixed(0)}" cy="${y.toFixed(0)}" r="16" fill="#efe3f7" opacity=".85"/><circle cx="${x.toFixed(0)}" cy="${y.toFixed(0)}" r="9" fill="#b98fd6"/><circle cx="${x.toFixed(0)}" cy="${y.toFixed(0)}" r="3.5" fill="#5e3a86"/>`;});
+  return s;}
+function drawLoose(){const R=rng(97);let s=`<rect width="300" height="300" fill="#fbeef1"/>`;
+  for(let i=0;i<22;i++){const x0=R()*300,y0=R()*300,a=R()*6.28,len=120+R()*140;const x1=x0+Math.cos(a)*len,y1=y0+Math.sin(a)*len;const mx=(x0+x1)/2+R()*60-30,my=(y0+y1)/2+R()*60-30;s+=`<path d="M${x0.toFixed(0)} ${y0.toFixed(0)} Q${mx.toFixed(0)} ${my.toFixed(0)} ${x1.toFixed(0)} ${y1.toFixed(0)}" stroke="#eaa9bb" stroke-width="${(3+R()*4).toFixed(1)}" fill="none" opacity=".7" stroke-linecap="round"/>`;}
+  for(let i=0;i<14;i++){const x0=R()*300,y0=R()*300,a=R()*6.28,len=100+R()*120;s+=`<path d="M${x0.toFixed(0)} ${y0.toFixed(0)} L${(x0+Math.cos(a)*len).toFixed(0)} ${(y0+Math.sin(a)*len).toFixed(0)}" stroke="#6a4a84" stroke-width="1" fill="none" opacity=".5"/>`;}
+  for(let k=0;k<16;k++){const x=R()*300,y=R()*300,a=R()*180;s+=`<ellipse cx="${x.toFixed(0)}" cy="${y.toFixed(0)}" rx="7" ry="2.6" fill="#6a3a66" transform="rotate(${a.toFixed(0)} ${x.toFixed(0)} ${y.toFixed(0)})"/>`;}
+  return s;}
+function drawCardiac(){const R=rng(113);let s=`<rect width="300" height="300" fill="#f3c4d0"/>`;
+  for(let y=10;y<300;y+=42){const h=30;
+    s+=`<rect x="-10" y="${y}" width="320" height="${h}" rx="15" fill="#e48ba4"/>`;
+    for(let x=0;x<300;x+=5){s+=`<line x1="${x}" y1="${y+2}" x2="${x}" y2="${y+h-2}" stroke="${(x/5)%2?"#c95f7f":"#eea9bc"}" stroke-width="1.4"/>`;}
+    for(let d=0;d<2;d++){const dx=60+R()*180;s+=`<line x1="${dx.toFixed(0)}" y1="${y-1}" x2="${dx.toFixed(0)}" y2="${y+h+1}" stroke="#3a1830" stroke-width="3"/>`;}
+    s+=`<ellipse cx="${(40+R()*220).toFixed(0)}" cy="${y+h/2}" rx="11" ry="5" fill="#4a2340"/>`;
+  }
+  return s;}
+function drawEpith(){const R=rng(129);let s=`<rect width="300" height="300" fill="#f6dbe4"/>`;
+  s+=`<rect x="0" y="286" width="300" height="14" fill="#c86f8c"/>`;
+  const rows=[{y:250,rx:12,ry:16},{y:214,rx:14,ry:14},{y:178,rx:16,ry:12},{y:144,rx:18,ry:9},{y:112,rx:22,ry:7},{y:82,rx:26,ry:5},{y:54,rx:30,ry:4}];
+  rows.forEach(rw=>{for(let x=16;x<300;x+=rw.rx*2+6){const jx=x+R()*6-3;
+    s+=`<ellipse cx="${jx.toFixed(0)}" cy="${rw.y}" rx="${rw.rx}" ry="${rw.ry}" fill="#f3c3d3" stroke="#d98aa6" stroke-width="1"/>`;
+    s+=`<ellipse cx="${jx.toFixed(0)}" cy="${rw.y}" rx="${(rw.rx*.4).toFixed(0)}" ry="${(rw.ry*.5).toFixed(1)}" fill="#8a3f6a"/>`;}});
+  return s;}
+
 const SVGC={};
 function slideSVG(sl){if(!SVGC[sl.id])SVGC[sl.id]=sl.draw();return `<svg viewBox="0 0 300 300" role="img" aria-label="Гистологический препарат">${SVGC[sl.id]}</svg>`;}
 function qrSVG(seed){const N=29,R=rng(seed);let m="";const inF=(x,y)=>(x<8&&y<8)||(x>N-9&&y<8)||(x<8&&y>N-9);const inC=(x,y)=>x>=11&&x<=17&&y>=11&&y<=17;
@@ -936,14 +991,27 @@ function vHome(){
     <button class="glass cont" data-act="start-mix"><span class="bub lg n">${ic("shuffle",22)}</span><span class="grow"><span class="t1">Микс из всех предметов</span><span class="t2">До 10 случайных вопросов</span></span><span class="go">${ic("arrow",18,2)}</span></button>`;
 }
 function subList(q){q=(q||"").trim().toLowerCase();
+  let out="";
+  if(q){
+    const hits=[];
+    DATA.forEach(s=>{availIdx(s,"cards").forEach(i=>{const c=s.cards[i];if(c&&(c.t.toLowerCase().includes(q)||(c.d&&c.d.toLowerCase().includes(q))))hits.push([c,s]);});});
+    if(hits.length){
+      out+=`<div class="sec"><h3>Термины</h3><span class="more">${hits.length}</span></div>`;
+      out+=hits.slice(0,40).map(([c,s])=>`<button class="glass tcard" data-act="open-sub" data-arg="${s.id}"><span class="tcrow"><span class="tct">${esc(c.t)}</span><span class="tcs">${esc(s.name)}</span></span>${c.d?`<span class="tcd">${esc(c.d)}</span>`:""}</button>`).join("");
+    }
+  }
   const list=DATA.filter(s=>(q||(s.course||1)===viewCourse())).filter(s=>!q||s.name.toLowerCase().includes(q)||s.cards.some(c=>c.t.toLowerCase().includes(q)));
-  if(!list.length)return q?`<p class="note">Ничего не нашлось. Попробуй другое слово.</p>`:`<div class="glass empty"><span class="bub lg n">${ic("book",24)}</span><span class="t1">${viewCourse()} курс скоро</span><span class="t2">Предметы этого курса появятся после загрузки материалов. Пока можно собрать свои колоды.</span></div>`;
-  return list.map(s=>{const k=(A.known[s.id]||[]).length,b=A.best[s.id],at=availIdx(s,"tests").length;return `<button class="glass srow" data-act="open-sub" data-arg="${s.id}">
+  if(list.length){
+    if(q)out+=`<div class="sec"><h3>Предметы</h3></div>`;
+    out+=list.map(s=>{const k=(A.known[s.id]||[]).length,b=A.best[s.id],at=availIdx(s,"tests").length;return `<button class="glass srow" data-act="open-sub" data-arg="${s.id}">
     <span class="bub lg" style="${tint(s)}">${ic(s.icon,24)}</span>
     <span class="grow"><span class="t1">${s.name}${s.demo?`<span class="demo">демо</span>`:""}</span>
       <span class="t2">${!s.tests.length?`${s.cards.length} ${plural(s.cards.length,TW)}`:(s.sections?`${s.sections.length} разделов, `:"")+(isPro()?`${s.tests.length} ${plural(s.tests.length,QW)}, ${s.cards.length} ${plural(s.cards.length,TW)}`:`Доступно ${at} из ${s.tests.length} ${plural(s.tests.length,QW)}`)}</span>
       <span class="meta"><span class="mini"><i style="width:${k/s.cards.length*100}%"></i></span><span class="pc">${!s.tests.length?(k?`${k} из ${s.cards.length} выучено`:"карточки"):(b!=null?"тест "+b+"%":"тест не пройден")}</span></span>
-    </span><span class="chev">${ic("right",18,2)}</span></button>`;}).join("");}
+    </span><span class="chev">${ic("right",18,2)}</span></button>`;}).join("");
+  }
+  if(!out)out=q?`<p class="note">Ничего не нашлось. Попробуй другое слово.</p>`:`<div class="glass empty"><span class="bub lg n">${ic("book",24)}</span><span class="t1">${viewCourse()} курс скоро</span><span class="t2">Предметы этого курса появятся после загрузки материалов. Пока можно собрать свои колоды.</span></div>`;
+  return out;}
 function vSubjects(){return `<header class="page-h"><h1 class="display">Предметы</h1><p class="lead">Лечебное дело. Выбери курс и предмет</p></header>
   <div class="courses">${COURSES.map(c=>`<button class="cchip ${viewCourse()===c?"on":""}" data-act="course-view" data-arg="${c}">${c} курс${subsOf(c).length?`<span class="dotc"></span>`:""}</button>`).join("")}</div>
   <label class="glass search">${ic("search",18,2)}<input id="search" placeholder="Предмет или термин" autocomplete="off"></label>
@@ -1125,7 +1193,7 @@ function vProfile(){
 function devCard(){return `<div class="glass dev"><span class="dava">${ic("send",22,2)}</span><span class="grow"><span class="t2" style="margin:0">Дизайн и разработка</span><span class="t1">@snix23</span></span><a class="tg" href="https://t.me/snix23" target="_blank" rel="noopener">Написать</a></div>`;}
 function vSettings(){
   const pro=isPro();
-  const skins=[["emerald","Изумруд","linear-gradient(135deg,#1f3a2a,#b3cf9d)"],["clinic","Клиника","linear-gradient(135deg,#0b1a3a,#3f7bff 55%,#8fd8ff)"],["graphite","Графит","linear-gradient(135deg,#232426,#e5ef4b)"],["mist","Туман","linear-gradient(135deg,#f3f6f1,#5f8f68)"],["aurora","Аврора","linear-gradient(135deg,#0a1330,#5b8cff)"]];
+  const skins=[["crimson","Кармин","linear-gradient(135deg,#1a0407,#ff3b47)"],["emerald","Изумруд","linear-gradient(135deg,#1f3a2a,#b3cf9d)"],["clinic","Клиника","linear-gradient(135deg,#0b1a3a,#3f7bff 55%,#8fd8ff)"],["graphite","Графит","linear-gradient(135deg,#232426,#e5ef4b)"],["mist","Туман","linear-gradient(135deg,#f3f6f1,#5f8f68)"],["aurora","Аврора","linear-gradient(135deg,#0a1330,#5b8cff)"]];
   const acct=isGuest()
     ?`<button class="row accent" data-act="to-auth"><span class="ri">${ic("mail",18)}</span><span class="grow">Войти по почте</span><span class="chev">${ic("right",18,2)}</span></button>`
     :`<div class="row"><span class="ri">${ic("mail",18)}</span><span class="grow">Почта</span><span class="val">${esc(A.email)}</span></div>`;
@@ -1226,30 +1294,31 @@ function vPaywall(){
     <div class="pw-hero"><div class="crown">${ic("crown",38,1.7)}</div><h1 class="display">Медкарты Премиум</h1><p class="lead">Вся база для подготовки к экзаменам и практическим занятиям</p></div>
     <div class="glass list feats">${FEATS.map(f=>`<div class="feat"><span class="fi">${ic("check",18,2.4)}</span><span class="grow">${f}</span></div>`).join("")}</div>
     <div class="plans">${Object.entries(PLANS).map(([id,p])=>`<button class="plan ${payPlan===id?"on":""}" data-act="plan" data-arg="${id}">${id==="year"?`<span class="save">Выгода 50%</span>`:""}<div class="pn">${p.n}</div><div class="pp">${fmt(p.p)}</div><div class="ps">${p.s}</div></button>`).join("")}</div>
-    <div class="btns"><button class="btn split" data-act="${isGuest()?"login-buy":"to-pay"}"><span>${isGuest()?"Войти и оформить":"Оплатить "+fmt(P.p)+" по СБП"}</span><span class="bi">${ic("arrow",18,2)}</span></button></div>
+    <div class="btns"><button class="btn split" data-act="${isGuest()?"login-buy":"to-pay"}"><span>${isGuest()?"Войти и оформить":"Оформить за "+fmt(P.p)}</span><span class="bi">${ic("arrow",18,2)}</span></button><button class="linkbtn" data-act="to-pay">У меня есть промокод</button></div>
     <p class="fine">${isGuest()?"Подписка привязывается к почте, поэтому сначала нужен вход.":"Подписка будет привязана к "+esc(A.email)+". Автопродление отключается в настройках."}<br>Тестовый режим: реальное списание не производится.</p>`;
 }
-function vPay(){const P=PLANS[PAY.plan];
-  if(PAY.stage==="checking")return `<div class="checking"><div class="spinner"></div><span class="t1">Проверяем платёж</span><span class="t2">Обычно это занимает пару секунд</span></div>`;
+function vPay(){if(!PAY)PAY={plan:payPlan};const P=PLANS[PAY.plan];const hasPay=!!(PAY_URL||PAY_URL_MONTH||PAY_URL_YEAR);
   return `<div class="topbar"><button class="icon-btn" data-act="paywall" aria-label="Назад">${ic("left",20,2)}</button></div>
-    <h1 class="display pay-h">Оплата по СБП</h1>
-    <div class="amount"><b>${fmt(P.p)}</b><span class="t2">Премиум на ${P.n.toLowerCase()}, ${esc(A.email)}</span></div>
-    <div class="qrcard">${qrSVG(P.p+A.email.length)}<div class="qrcap"><span>Система быстрых платежей</span><span class="sbp">СБП</span></div></div>
+    <h1 class="display pay-h">Оформление Премиум</h1>
+    <div class="amount"><b>${fmt(P.p)}</b><span class="t2">Премиум на ${P.n.toLowerCase()}${(A&&A.email&&!isGuest())?", "+esc(A.email):""}</span></div>
+    ${hasPay?`<button class="btn split" data-act="pay-open"><span>Оплатить ${fmt(P.p)}</span><span class="bi">${ic("arrow",18,2)}</span></button>
     <div class="glass list steps">
-      <div class="step"><span class="sn">1</span><span class="grow">Открой приложение своего банка</span></div>
-      <div class="step"><span class="sn">2</span><span class="grow">Выбери оплату по QR-коду и наведи камеру</span></div>
-      <div class="step"><span class="sn">3</span><span class="grow">Подтверди платёж, подписка включится сама</span></div>
-    </div>
-    <div class="btns"><button class="btn" data-act="paid-check">Я оплатил</button><button class="btn ghost" data-act="bank">Открыть приложение банка</button></div>
-    <p class="fine">Тестовый режим: QR-код демонстрационный, оплата имитируется.</p>`;}
-function vPaid(){const P=PLANS[A.planKind||"month"];
+      <div class="step"><span class="sn">1</span><span class="grow">Нажми «Оплатить» и заверши платёж</span></div>
+      <div class="step"><span class="sn">2</span><span class="grow">После оплаты тебе придёт промокод</span></div>
+      <div class="step"><span class="sn">3</span><span class="grow">Впиши код ниже и получи доступ</span></div>
+    </div>`:`<div class="glass info-box"><span class="t1">Оплата картой подключается</span><span class="t2">Пока Премиум можно открыть промокодом ниже.</span></div>`}
+    <div class="sec"><h3>Активация по коду</h3></div>
+    <label class="field">${ic("crown",18)}<input id="promoIn" type="text" autocapitalize="characters" autocomplete="off" spellcheck="false" placeholder="MEDK-XXXX-XXXX"></label>
+    <button class="btn" data-act="redeem">Активировать Премиум</button>
+    <p class="fine">Промокод открывает Премиум на этом устройстве. Код одноразовый.</p>`;}
+function vPaid(){const lifetime=!A.planUntil;
+  const kindName=A.planKind==="lifetime"?"навсегда":(PLANS[A.planKind]?PLANS[A.planKind].n.toLowerCase():"по промокоду");
   return `<div class="result">
     <div class="okmark"><svg viewBox="0 0 100 100" aria-hidden="true"><circle class="okc" cx="50" cy="50" r="44"/><path class="okp" d="M30 52 L44 66 L71 37"/></svg></div>
-    <h1 class="display">Премиум активирован</h1><p class="sub">Доступ открыт до ${dateLong(A.planUntil)}</p>
+    <h1 class="display">Премиум активирован</h1><p class="sub">${lifetime?"Доступ открыт навсегда":"Доступ открыт до "+dateLong(A.planUntil)}</p>
     <div class="glass list receipt">
-      <div class="row"><span class="grow">Тариф</span><span class="val">Премиум, ${P.n.toLowerCase()}</span></div>
-      <div class="row"><span class="grow">Сумма</span><span class="val">${fmt(P.p)}</span></div>
-      <div class="row"><span class="grow">Аккаунт</span><span class="val">${esc(A.email)}</span></div>
+      <div class="row"><span class="grow">Тариф</span><span class="val">Премиум, ${kindName}</span></div>
+      ${(A&&A.email&&!isGuest())?`<div class="row"><span class="grow">Аккаунт</span><span class="val">${esc(A.email)}</span></div>`:""}
     </div>
     <div class="btns"><button class="btn" data-act="tab" data-arg="home">Начать заниматься</button></div></div>`;}
 
@@ -1428,7 +1497,7 @@ function vEcg(){
   </div>
 
   <div class="glass ref-sec"><h2>Алгоритм расшифровки</h2>
-    <ol class="step">
+    <ol class="nstep">
       <li><b>Ритм.</b> Синусовый ли: перед каждым QRS есть P, P положительный в II и отрицательный в aVR, форма P одинаковая.</li>
       <li><b>ЧСС.</b> 1500 / число мелких клеток R-R (при 25 мм/с) либо 300 / число больших клеток. Калькулятор — в разделе «Калькуляторы».</li>
       <li><b>Регулярность.</b> Одинаковые ли интервалы R-R. Нерегулярность — повод думать о фибрилляции/экстрасистолии.</li>
@@ -1539,7 +1608,7 @@ const SKILLS=[
       <li>Оценивают: напряжение мышц, болезненность, расхождение прямых мышц, симптомы раздражения брюшины (Щёткина-Блюмберга)</li></ul>
     <h3>Глубокая методическая скользящая (Образцов-Стражеско)</h3>
     <p>Строгий порядок:</p>
-    <ol class="step">
+    <ol class="nstep">
       <li>Сигмовидная кишка</li><li>Слепая кишка</li><li>Терминальный отдел подвздошной кишки</li>
       <li>Восходящая и нисходящая ободочная</li><li>Поперечная ободочная</li>
       <li>Большая кривизна желудка и привратник</li><li>Печень</li><li>Селезёнка</li><li>Почки</li>
@@ -1574,7 +1643,7 @@ const SKILLS=[
   html:()=>`
    <div class="glass ref-sec"><h2>Точки аускультации сердца</h2>
     <p>Порядок выслушивания соответствует частоте поражения клапанов:</p>
-    <ol class="step">
+    <ol class="nstep">
       <li><b>Митральный клапан</b> — верхушка сердца (V межреберье на 1–1,5 см кнутри от срединно-ключичной линии)</li>
       <li><b>Аортальный клапан</b> — II межреберье справа от грудины</li>
       <li><b>Клапан лёгочной артерии</b> — II межреберье слева от грудины</li>
@@ -1805,7 +1874,7 @@ function vStats(){
    <div class="glass hmwrap"><div class="hmgrid">${grid}</div>
      <div class="hmleg"><span>меньше</span><i class="hm l0"></i><i class="hm l1"></i><i class="hm l2"></i><i class="hm l3"></i><i class="hm l4"></i><span>больше</span></div>
    </div>
-   <p class="hubdesc">Каждый квадрат — день. Чем насыщеннее, тем больше карточек и тестов пройдено. Заполняется по мере занятий.</p>`;
+   <p class="hubdesc">Каждый квадрат это один день: чем насыщеннее, тем больше карточек и тестов пройдено. Заполняется по мере занятий.</p>`;
 }
 
 /* ---------- бэкап прогресса ---------- */
@@ -1847,7 +1916,16 @@ const IMG={"ecg-leads": "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBD
 /* ---------- PWA ---------- */
 if("serviceWorker" in navigator){
   window.addEventListener("load",function(){
-    navigator.serviceWorker.register("sw.js").catch(function(){});
+    navigator.serviceWorker.register("sw.js").then(function(reg){
+      reg.addEventListener("updatefound",function(){
+        var nw=reg.installing;
+        if(nw)nw.addEventListener("statechange",function(){
+          if(nw.state==="installed"&&navigator.serviceWorker.controller){try{nw.postMessage("skipWaiting");}catch(e){}}
+        });
+      });
+    }).catch(function(){});
+    var reloaded=false;
+    navigator.serviceWorker.addEventListener("controllerchange",function(){if(reloaded)return;reloaded=true;location.reload();});
   });
 }
 let deferredPrompt=null;
@@ -1973,6 +2051,68 @@ function vExamResult(){
    +'<div class="cgroup">Разбор ответов</div>'+review;
 }
 
+/* ============================================================
+   Модуль 4: Премиум — промокоды + реальная оплата
+   ============================================================ */
+/* >>> НАСТРОЙКА ОПЛАТЫ <<<
+   Вставь свою ссылку на страницу оплаты (Продамус / Boosty / ЮKassa / Robokassa и т.п.).
+   Пусто = кнопка оплаты прячется, доступна только активация промокодом. */
+const PAY_URL="";
+const PAY_URL_MONTH="";
+const PAY_URL_YEAR="";
+const PROMO={"d0aeca230d8c5b0736a1841a5123d479199ee6fb126ca2b1767964efde48708b": {"days": 0, "tag": "lifetime"}, "43503558f0dca266c3aad991a08775e838a74f9601eea4d8a821f8bba06b8ea5": {"days": 0, "tag": "lifetime"}, "b08b87e3373dd3d30c259d3cc256a99e4f51cef6425b3ead912cf1e38e18490f": {"days": 0, "tag": "lifetime"}, "0d57eed2c11573e1d62cf949ca4476892cbd438fe7aaf2ab8b26fdc952a5c37d": {"days": 365, "tag": "year"}, "87f56f77feea567d21f1244ba2b64ea644a837956675e4097e121002912de204": {"days": 365, "tag": "year"}, "d51becaa12d36d19a18aa000b57eb5a8bcbbc11c311945004ecd6dd81db056a8": {"days": 365, "tag": "year"}, "8940ea4851ee037c340cf1b56d361f96212fa4c91e35107232abeeb3eab35a9c": {"days": 365, "tag": "year"}, "b88e5400c88004e6b091b0f38d049ec0a70d3abd17a32401c9a2a0d7b5d8514c": {"days": 365, "tag": "year"}, "9f6cda4d3032c9c0fd12c506b162aedf05f36c0448f9d2df5d83324c0696d860": {"days": 365, "tag": "year"}, "f148ea19fa18d36c086439a3b6d23b1e4b96bad83f643b82252c42ba59d50cfd": {"days": 365, "tag": "year"}, "6277b534452c81b562f0322267b6179a01768ee0a5b447df1ed68c6451c4efaf": {"days": 365, "tag": "year"}, "621b3de56304803ba9757dcdbf19da42a164ff2c1c244f391f028d652bef862e": {"days": 365, "tag": "year"}, "c4d0a80869e55112d6eefb7eb9c13f922f849751b1ae09208b6cbc8963fa4ab8": {"days": 365, "tag": "year"}, "555c4c0870379ea803ad9528127ef430fcd020fbca1f9105749d4711d417a485": {"days": 365, "tag": "year"}, "2d307a0dea8050f60a9080e87e557083ffea81721b92b975805e78661e6ec615": {"days": 365, "tag": "year"}, "52ad681669ad7f97643e93c78989fcce84644d5f35618cedb5e76a012fdc802d": {"days": 30, "tag": "month"}, "20e28e33dded29a9d83c36ce0ca841d9dfdc7cb1966a5efe25bc02460cd6b6c5": {"days": 30, "tag": "month"}, "16cf920f39bf3e2be6435e5252ab821e303480c985545977d756b20a28609198": {"days": 30, "tag": "month"}, "b88aa0fd54fe610b40fc0ef643eafbb58a89a51821955ba1e1be7df946b01c52": {"days": 30, "tag": "month"}, "86cbea47cb6f17fa91cdd0f244cf88a24451373935bdba5b35da0dc4defe8177": {"days": 30, "tag": "month"}, "53c859145188838a39687875e455b5fdc308b4eca497fb8a18bf2a728bbac6f0": {"days": 30, "tag": "month"}, "ba1503dadef43fff1c3ba24f4e4379fad8a6d39ad774989b0f3c48fea7d7bee3": {"days": 30, "tag": "month"}, "52ad3950869843a30364304c938b51529454738e84be4000de258e8bdae891b4": {"days": 30, "tag": "month"}, "9e38339291f43821444b5f0590e691d0e3a1ee71fdc31f5ace0f1609ac5f1c44": {"days": 30, "tag": "month"}, "f7ccfcf58a1fc9c924d89ac9048a8825b2dfbe9c817d65f81d19462ae694cfbb": {"days": 30, "tag": "month"}, "20ac9536c357eb356b113e8833c16fa80bcd7685d0d26fc425d25189f7253676": {"days": 30, "tag": "month"}, "945002d5c215370e688a909a321d2f8cd4dfe666b8196bef1045f4573c310276": {"days": 30, "tag": "month"}, "5e91b542ca2c983f0e4a9458aac7f5d2c601a8c4932ee7165b4a5d8fb10a8f24": {"days": 30, "tag": "month"}, "73dbea85ff0e86894c0d93f64fec7bf2e5ed50da03d8fdb5ba3c667aa1880b6f": {"days": 30, "tag": "month"}, "72b79d6cc7c6f9d45a94fcec904ec324f8661aedbd46a8da3a952f516967b420": {"days": 30, "tag": "month"}};
+
+async function sha256hex(str){
+  const d=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(str));
+  return Array.prototype.map.call(new Uint8Array(d),function(b){return("0"+b.toString(16)).slice(-2);}).join("");
+}
+function grantPro(days,kind){
+  const base=(isPro()&&A.planUntil)?A.planUntil:Date.now();
+  A.plan="pro";A.planKind=kind||"promo";A.autoRenew=false;
+  A.planUntil=days?base+days*86400000:null;
+  save();
+}
+async function redeemPromo(){
+  const el=document.getElementById("promoIn");if(!el)return;
+  const raw=(el.value||"").trim().toUpperCase().replace(/\s+/g,"");
+  if(!raw){toast("Введи код","Впиши промокод в поле","x");return;}
+  let h;try{h=await sha256hex(raw);}catch(e){toast("Не получилось проверить","Обнови страницу и попробуй снова","x");return;}
+  const rec=PROMO[h];
+  if(!rec){toast("Неверный код","Проверь код и попробуй ещё раз","x");sfx("bad");buzz(30);return;}
+  DB.usedPromo=DB.usedPromo||{};
+  if(DB.usedPromo[h]){toast("Код уже активирован","Этот промокод уже использован","x");return;}
+  DB.usedPromo[h]=Date.now();
+  grantPro(rec.days,rec.tag);
+  sfx("pay");buzz([20,60,20]);
+  go("paid");
+}
+function openPay(){
+  const url=(payPlan==="year"?(PAY_URL_YEAR||PAY_URL):(PAY_URL_MONTH||PAY_URL));
+  if(!url){toast("Оплата картой скоро","Пока Премиум активируется промокодом","image");return;}
+  try{window.open(url,"_blank","noopener");}catch(e){location.href=url;}
+}
+function toPromo(){PAY={plan:payPlan};go("pay");}
+
+(function(){var h=DATA.find(function(s){return s.id==="histo";});if(h){var add=[{"t": "Эпителий", "d": "Пограничная ткань: покрывает поверхности и выстилает полости, лежит на базальной мембране, сосудов не содержит, питается диффузией.", "sec": "Ткани и клетки"}, {"t": "Базальная мембрана", "d": "Тонкий слой между эпителием и подлежащей тканью: опора, барьер и путь питания эпителия.", "sec": "Ткани и клетки"}, {"t": "Однослойный плоский эпителий", "d": "Один ряд уплощённых клеток. Обеспечивает обмен и скольжение (мезотелий, эндотелий).", "sec": "Ткани и клетки"}, {"t": "Эндотелий", "d": "Однослойный плоский эпителий, выстилающий изнутри сосуды и камеры сердца.", "sec": "Ткани и клетки"}, {"t": "Однослойный кубический эпителий", "d": "Клетки высотой примерно равны ширине. Канальцы почек, протоки желёз.", "sec": "Ткани и клетки"}, {"t": "Однослойный цилиндрический эпителий", "d": "Высокие призматические клетки. Выстилает желудок и кишечник, участвует во всасывании.", "sec": "Ткани и клетки"}, {"t": "Мерцательный эпителий", "d": "Несёт реснички, продвигающие слизь. Выстилает дыхательные пути.", "sec": "Ткани и клетки"}, {"t": "Многорядный эпителий", "d": "Все клетки стоят на базальной мембране, но ядра на разных уровнях. Дыхательные пути.", "sec": "Ткани и клетки"}, {"t": "Многослойный плоский неороговевающий эпителий", "d": "Защищает влажные поверхности: пищевод, ротовая полость, роговица.", "sec": "Ткани и клетки"}, {"t": "Многослойный плоский ороговевающий эпителий", "d": "Эпидермис кожи: верхние клетки заполнены кератином и отмирают.", "sec": "Ткани и клетки"}, {"t": "Переходный эпителий", "d": "Уротелий мочевыводящих путей: меняет форму и число слоёв при растяжении.", "sec": "Ткани и клетки"}, {"t": "Железистый эпителий", "d": "Эпителий, образующий железы и вырабатывающий секрет.", "sec": "Ткани и клетки"}, {"t": "Экзокринная железа", "d": "Выделяет секрет через проток на поверхность или в полость (потовые, слюнные).", "sec": "Ткани и клетки"}, {"t": "Эндокринная железа", "d": "Выделяет гормоны прямо в кровь, протоков не имеет (щитовидная, надпочечники).", "sec": "Ткани и клетки"}, {"t": "Бокаловидная клетка", "d": "Одноклеточная железа, вырабатывающая слизь в эпителии кишечника и дыхательных путей.", "sec": "Ткани и клетки"}, {"t": "Соединительная ткань", "d": "Ткань с большим количеством межклеточного вещества. Опора, трофика, защита.", "sec": "Ткани и клетки"}, {"t": "Фибробласт", "d": "Главная клетка рыхлой соединительной ткани: синтезирует коллаген и межклеточное вещество.", "sec": "Ткани и клетки"}, {"t": "Коллагеновые волокна", "d": "Прочные неэластичные волокна из коллагена, придающие ткани прочность.", "sec": "Ткани и клетки"}, {"t": "Эластические волокна", "d": "Растяжимые волокна из эластина, возвращающие ткань в исходную форму.", "sec": "Ткани и клетки"}, {"t": "Макрофаг", "d": "Клетка, поглощающая микробы и остатки клеток путём фагоцитоза; участвует в иммунитете.", "sec": "Ткани и клетки"}, {"t": "Тучная клетка", "d": "Лаброцит: содержит гистамин и гепарин, участвует в аллергии и воспалении.", "sec": "Ткани и клетки"}, {"t": "Плазмоцит", "d": "Клетка, вырабатывающая антитела; происходит из B-лимфоцита.", "sec": "Ткани и клетки"}, {"t": "Рыхлая волокнистая соединительная ткань", "d": "Много клеток, волокна расположены рыхло. Сопровождает сосуды и органы.", "sec": "Ткани и клетки"}, {"t": "Плотная волокнистая соединительная ткань", "d": "Преобладают волокна. Сухожилия, связки, сетчатый слой дермы.", "sec": "Ткани и клетки"}, {"t": "Жировая ткань", "d": "Запас энергии и теплоизоляция; состоит из адипоцитов.", "sec": "Ткани и клетки"}, {"t": "Ретикулярная ткань", "d": "Образует строму (каркас) кроветворных и лимфоидных органов.", "sec": "Ткани и клетки"}, {"t": "Хондроцит", "d": "Клетка хрящевой ткани, лежащая в лакунах.", "sec": "Ткани и клетки"}, {"t": "Гиалиновый хрящ", "d": "Самый распространённый хрящ: суставные поверхности, рёбра, трахея.", "sec": "Ткани и клетки"}, {"t": "Эластический хрящ", "d": "Содержит эластические волокна. Ушная раковина, надгортанник.", "sec": "Ткани и клетки"}, {"t": "Волокнистый хрящ", "d": "Много коллагеновых волокон. Межпозвоночные диски, лобковый симфиз.", "sec": "Ткани и клетки"}, {"t": "Надхрящница", "d": "Соединительнотканная оболочка хряща: рост и питание.", "sec": "Ткани и клетки"}, {"t": "Остеобласт", "d": "Клетка, строящая костную ткань и синтезирующая её матрикс.", "sec": "Ткани и клетки"}, {"t": "Остеокласт", "d": "Крупная многоядерная клетка, разрушающая кость (резорбция).", "sec": "Ткани и клетки"}, {"t": "Остеоцит", "d": "Зрелая костная клетка в лакунах, поддерживающая костную ткань.", "sec": "Ткани и клетки"}, {"t": "Надкостница", "d": "Оболочка кости: рост в толщину, питание и регенерация.", "sec": "Ткани и клетки"}, {"t": "Гладкая мышечная ткань", "d": "Веретеновидные клетки без исчерченности, сокращаются непроизвольно. Стенки сосудов и органов.", "sec": "Ткани и клетки"}, {"t": "Скелетная мышечная ткань", "d": "Многоядерные поперечнополосатые волокна, сокращаются произвольно.", "sec": "Ткани и клетки"}, {"t": "Саркомер", "d": "Сократительная единица поперечнополосатого волокна между двумя Z-линиями.", "sec": "Ткани и клетки"}, {"t": "Вставочный диск", "d": "Контакт между кардиомиоцитами, обеспечивающий синхронное сокращение сердца.", "sec": "Ткани и клетки"}, {"t": "Нейрон", "d": "Основная клетка нервной системы, проводящая импульс. Состоит из тела, дендритов и аксона.", "sec": "Ткани и клетки"}, {"t": "Дендрит", "d": "Отросток нейрона, принимающий сигналы и проводящий их к телу клетки.", "sec": "Ткани и клетки"}, {"t": "Аксон", "d": "Длинный отросток нейрона, проводящий импульс от тела клетки к другим клеткам.", "sec": "Ткани и клетки"}, {"t": "Синапс", "d": "Место контакта между нейронами для передачи нервного импульса.", "sec": "Ткани и клетки"}, {"t": "Нейроглия", "d": "Вспомогательные клетки нервной ткани: опора, питание и защита нейронов.", "sec": "Ткани и клетки"}, {"t": "Миелиновая оболочка", "d": "Изолирующая оболочка аксона, ускоряющая проведение импульса.", "sec": "Ткани и клетки"}, {"t": "Эритроцит", "d": "Безъядерная клетка крови, переносящая кислород за счёт гемоглобина.", "sec": "Ткани и клетки"}, {"t": "Лейкоцит", "d": "Белая клетка крови, обеспечивающая иммунную защиту.", "sec": "Ткани и клетки"}, {"t": "Тромбоцит", "d": "Кровяная пластинка, участвующая в свёртывании крови.", "sec": "Ткани и клетки"}, {"t": "Нейтрофил", "d": "Самый частый лейкоцит, фагоцитирующий бактерии.", "sec": "Ткани и клетки"}, {"t": "Лимфоцит", "d": "Лейкоцит специфического иммунитета (B- и T-клетки).", "sec": "Ткани и клетки"}, {"t": "Моноцит", "d": "Крупный лейкоцит, превращающийся в тканях в макрофаг.", "sec": "Ткани и клетки"}, {"t": "Эозинофил", "d": "Лейкоцит, активный при аллергии и паразитарных инфекциях.", "sec": "Ткани и клетки"}, {"t": "Базофил", "d": "Лейкоцит с гистамином и гепарином, участвует в воспалении.", "sec": "Ткани и клетки"}];var have={};h.cards.forEach(function(c){have[c.t]=1;});add.forEach(function(c){if(!have[c.t])h.cards.push(c);});}})();
+(function(){
+  function shuf(a){for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t;}return a;}
+  DATA.forEach(function(s){
+    if(s.tests&&s.tests.length>=8)return;
+    if(!s.cards||s.cards.length<4)return;
+    var good=s.cards.filter(function(c){return c&&c.t&&c.d&&c.t.length>=2&&c.t.length<=45&&c.d.length>=8&&c.d.length<=240;});
+    var terms=[];good.forEach(function(c){if(terms.indexOf(c.t)<0)terms.push(c.t);});
+    if(terms.length<4)return;
+    var tests=[];
+    good.forEach(function(c){
+      var pool=terms.filter(function(t){return t!==c.t;});
+      shuf(pool);
+      var opts=[c.t,pool[0],pool[1],pool[2]];
+      shuf(opts);
+      tests.push({q:"Какое понятие соответствует описанию: «"+c.d+"»",opts:opts,a:opts.indexOf(c.t),e:c.t+" — "+c.d,sec:(c.sec||null),auto:true});
+    });
+    s.tests=(s.tests||[]).concat(tests);
+  });
+})();
 const VIEWS={decks:vDecks,deck:vDeck,cardEdit:vCardEdit,deckImport:vImport,auth:vAuth,code:vCode,setup:vSetup,home:vHome,subjects:vSubjects,subject:vSubject,test:vTest,result:vResult,cards:vCards,cardsDone:vCardsDone,slides:vSlides,slidesDone:vSlidesDone,diagram:vDiagram,diagramDone:vDiagramDone,blitz:vBlitz,blitzDone:vBlitzDone,profile:vProfile,settings:vSettings,paywall:vPaywall,pay:vPay,paid:vPaid,clinic:vClinic,calc:vCalc,ecg:vEcg,skills:vSkills,skill:vSkill,labs:vLabs,scales:vScales,stats:vStats,backup:vBackup,examSetup:vExamSetup,exam:vExam,examResult:vExamResult};
 const FULL=["cardEdit","deckImport","auth","code","setup","test","result","cards","cardsDone","slides","slidesDone","diagram","diagramDone","blitz","blitzDone","paywall","pay","paid","exam","examResult"];
 function render(anim){
@@ -2074,7 +2214,7 @@ function blAnswer(v){if(!BL||!BL.timer)return;const st=BL.list[BL.i%BL.list.leng
   document.getElementById("bs").textContent="Очки: "+BL.score;}
 function finishBlitz(){if(BL.score>A.blitzBest){BL.newBest=A.blitzBest>0;A.blitzBest=BL.score;}activity(BL.score);save();go("blitzDone");if(BL.newBest){sfx("achieve");confetti();}checkAch();}
 function toPay(){PAY={plan:payPlan,stage:"qr"};go("pay");}
-function paidCheck(){PAY.stage="checking";render(false);setTimeout(()=>{const P=PLANS[PAY.plan];const base=isPro()?A.planUntil:Date.now();A.plan="pro";A.planKind=PAY.plan;A.planUntil=base+P.days*864e5;A.autoRenew=true;save();sfx("pay");buzz([20,60,20,60,40]);go("paid");},1900);}
+function paidCheck(){openPay();}
 function pickImage(file){return new Promise((res,rej)=>{const fr=new FileReader();fr.onload=()=>{const im=new Image();im.onload=()=>{const M=720,sc=Math.min(1,M/Math.max(im.width,im.height));const cv=document.createElement("canvas");cv.width=Math.round(im.width*sc);cv.height=Math.round(im.height*sc);cv.getContext("2d").drawImage(im,0,0,cv.width,cv.height);res(cv.toDataURL("image/jpeg",.72));};im.onerror=rej;im.src=fr.result;};fr.onerror=rej;fr.readAsDataURL(file);});}
 function openDecks(){if(!isPro()){sfx("soft");go("paywall");return;}go("decks");}
 function newDeck(){const d={id:uid(),name:"Новая колода",cards:[],created:Date.now(),fresh:true};A.decks.unshift(d);save();go("deck",d.id);}
@@ -2157,6 +2297,9 @@ document.addEventListener("click",e=>{
     case "to-pay":toPay();break;
     case "login-buy":pendingAfter="buy";DB.session=null;A=null;save();go("auth");break;
     case "paid-check":paidCheck();break;
+    case "pay-open":openPay();break;
+    case "redeem":redeemPromo();break;
+    case "to-promo":toPromo();break;
     case "bank":toast("Переход в банк","В рабочей версии здесь откроется приложение банка","send");break;
     case "send-code":sendCode();break;
     case "verify":verify();break;
