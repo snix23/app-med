@@ -1,7 +1,7 @@
 {
  "id": "/app-med/",
- "name": "Медкарты",
- "short_name": "Медкарты",
+ "name": "MedAPP",
+ "short_name": "MedAPP",
  "start_url": "./",
  "scope": "./",
  "display": "standalone",
