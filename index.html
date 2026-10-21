@@ -160,6 +160,8 @@ button:focus-visible,input:focus-visible,[role="button"]:focus-visible,a:focus-v
 .codew{padding-top:18px}
 .codew .mark{width:62px;height:62px;border-radius:20px;display:grid;place-items:center;background:var(--glass2);color:var(--accent);border:1px solid var(--stroke);margin-bottom:18px}
 .otp{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-top:24px}
+.orline{display:flex;align-items:center;gap:12px;margin:18px 2px;color:var(--text3);font-size:13px}.orline::before,.orline::after{content:"";flex:1;height:1px;background:var(--stroke)}
+.gbtn{display:flex;align-items:center;justify-content:center;gap:10px}.gbtn svg{flex:none}
 .otp input{height:58px;min-width:0;border-radius:16px;text-align:center;font-size:24px;font-family:"Fraunces",Georgia,serif;background:var(--glass);border:1px solid var(--stroke);color:var(--text);outline:none;transition:border-color .2s,transform .2s}
 .otp input:focus{border-color:var(--accent);transform:translateY(-2px)}
 .otp.shake{animation:shake .4s}
@@ -999,6 +1001,8 @@ function vAuth(){return `<div class="auth">
     <label class="field">${ic("mail",18)}<input id="email" type="email" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false" placeholder="name@mail.ru" value="${esc(pendingEmail)}"></label>
     <div class="err" id="err"></div>
     <button class="btn split" data-act="send-code"><span>Получить код</span><span class="bi">${ic("arrow",18,2)}</span></button>
+    <div class="orline"><span>или</span></div>
+    <button class="btn ghost gbtn" data-act="google-login"><svg width="18" height="18" viewBox="0 0 48 48" aria-hidden="true"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg><span>Войти через Google</span></button>
     ${pendingAfter==="buy"?`<button class="linkbtn" data-act="back-home">Вернуться назад</button>`:`<button class="linkbtn" data-act="guest">Продолжить без входа</button>`}
   </div>
   <p class="credit">Дизайн и разработка: <a href="https://t.me/snix23" target="_blank" rel="noopener">@snix23</a></p>
@@ -2887,7 +2891,7 @@ const SB_URL="https://tqcvdrcbkkdczhktwavs.supabase.co";
 const SB_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRxY3ZkcmNia2tkY3poa3R3YXZzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTIzNTE2NDUsImV4cCI6MjEwNzkyNzY0NX0.gFlJMT8F2mBaGab2UgxVBzjdapFNOodTYtvZwBDPTr0";
 let SB=null;let AUTH={step:"email",email:"",busy:false};
 function sbClient(){if(!SB&&window.supabase){try{SB=window.supabase.createClient(SB_URL,SB_KEY,{auth:{persistSession:true,autoRefreshToken:true,storageKey:"sb-medapp-auth"}});}catch(e){}}return SB;}
-async function supaInit(){var c=sbClient();if(!c)return;try{var r=await c.auth.getSession();if(r&&r.data&&r.data.session){await supaOnLogin(r.data.session.user);}}catch(e){}}
+async function supaInit(){var c=sbClient();if(!c)return;try{c.auth.onAuthStateChange(function(ev,sess){if(sess&&sess.user){try{supaOnLogin(sess.user);}catch(e){}}});}catch(e){}try{var r=await c.auth.getSession();if(r&&r.data&&r.data.session){await supaOnLogin(r.data.session.user);}}catch(e){}}
 async function supaOnLogin(user){if(!user)return;var email=user.email||"";if(email){if(!DB.accounts[email])DB.accounts[email]=acctDefault(email);DB.session=email;bindA();}AUTH.step="in";AUTH.email=email;await supaSyncPremium(user.id);save();try{render(false);}catch(e){}}
 async function supaSyncPremium(uid){var c=sbClient();if(!c||!A)return;try{var r=await c.from("entitlements").select("plan,expires_at").eq("user_id",uid).maybeSingle();var d=r&&r.data;if(d&&d.plan==="pro"&&(!d.expires_at||new Date(d.expires_at).getTime()>Date.now())){A.plan="pro";A.planKind="online";A.planUntil=d.expires_at?new Date(d.expires_at).getTime():null;save();}}catch(e){}}
 async function supaSendCode(){var c=sbClient();if(!c){toast("Нет сети","Вход требует интернета","x");return;}var el=document.getElementById("sbEmail");var email=(el&&el.value||"").trim();if(email.indexOf("@")<1){toast("Почта","Введи корректную почту","x");return;}AUTH.busy=true;render(false);try{var r=await c.auth.signInWithOtp({email:email,options:{shouldCreateUser:true}});AUTH.busy=false;if(r.error){toast("Ошибка",r.error.message||"Не удалось отправить","x");}else{AUTH.email=email;AUTH.step="code";}render(false);}catch(e){AUTH.busy=false;toast("Ошибка","Сеть недоступна","x");render(false);}}
@@ -3004,6 +3008,7 @@ function after(){
 const EMAIL_RE=/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 function showErr(t){const e=document.getElementById("err");if(e)e.textContent=t||"";}
 function sendCode(){const v=(document.getElementById("email").value||"").trim().toLowerCase();if(!EMAIL_RE.test(v)){showErr("Проверь адрес почты");sfx("bad");buzz(30);return;}pendingEmail=v;sfx("send");go("code");toast("Код отправлен",esc(v),"mail");}
+async function googleLogin(){var c=sbClient();if(!c){toast("Секундочку","Соединяемся с сервером","refresh");return;}try{sfx("send");var r=await c.auth.signInWithOAuth({provider:"google",options:{redirectTo:location.href.split("#")[0].split("?")[0]}});if(r&&r.error){toast("Не удалось войти",esc(r.error.message||"Попробуй ещё раз"),"mail");}}catch(e){toast("Не удалось войти","Проверь соединение и попробуй снова","mail");}}
 function setupOtp(){const boxes=[...view.querySelectorAll(".otp input")];const vb=document.getElementById("verify");
   const check=()=>{vb.disabled=boxes.some(b=>!b.value);};
   boxes.forEach((b,i)=>{
@@ -3286,6 +3291,7 @@ document.addEventListener("click",e=>{
     case "to-promo":toPromo();break;
     case "bank":toast("Переход в банк","В рабочей версии здесь откроется приложение банка","send");break;
     case "send-code":sendCode();break;
+    case "google-login":googleLogin();break;
     case "verify":verify();break;
     case "resend":toast("Код отправлен повторно",esc(pendingEmail),"mail");startResend();break;
     case "to-auth":pendingAfter=null;if(isGuest()){DB.session=null;A=null;save();}go("auth");break;
