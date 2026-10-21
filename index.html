@@ -1375,14 +1375,14 @@ function vPaywall(){
     <div class="btns"><button class="btn split" data-act="${isGuest()?"login-buy":"to-pay"}"><span>${isGuest()?"Войти и оформить":"Оформить за "+fmt(P.p)}</span><span class="bi">${ic("arrow",18,2)}</span></button><button class="linkbtn" data-act="to-pay">У меня есть промокод</button></div>
     <p class="fine">${isGuest()?"Подписка привязывается к почте, поэтому сначала нужен вход.":"Подписка будет привязана к "+esc(A.email)+". Автопродление отключается в настройках."}</p>`;
 }
-function vPay(){if(!PAY)PAY={plan:payPlan};const P=PLANS[PAY.plan];const hasPay=!!(PAY_URL||PAY_URL_MONTH||PAY_URL_YEAR);
+function vPay(){if(!PAY)PAY={plan:payPlan};const P=PLANS[PAY.plan];const hasPay=true;
   return `<div class="topbar"><button class="icon-btn" data-act="paywall" aria-label="Назад">${ic("left",20,2)}</button></div>
     <h1 class="display pay-h">Оформление Премиум</h1>
     <div class="amount"><b>${fmt(P.p)}</b><span class="t2">Премиум на ${P.n.toLowerCase()}${(A&&A.email&&!isGuest())?", "+esc(A.email):""}</span></div>
     ${hasPay?`<button class="btn split" data-act="pay-open"><span>Оплатить ${fmt(P.p)}</span><span class="bi">${ic("arrow",18,2)}</span></button>
     <div class="glass list steps">
       <div class="step"><span class="sn">1</span><span class="grow">Нажми «Оплатить» и заверши платёж</span></div>
-      <div class="step"><span class="sn">2</span><span class="grow">После оплаты тебе придёт промокод</span></div>
+      <div class="step"><span class="sn">2</span><span class="grow">После оплаты Премиум откроется автоматически</span></div>
       <div class="step"><span class="sn">3</span><span class="grow">Впиши код ниже и получи доступ</span></div>
     </div>`:`<div class="glass info-box"><span class="t1">Оплата картой подключается</span><span class="t2">Пока Премиум можно открыть промокодом ниже.</span></div>`}
     <div class="sec"><h3>Активация по коду</h3></div>
@@ -2318,10 +2318,18 @@ async function redeemPromo(){
   sfx("pay");buzz([20,60,20]);
   go("paid");
 }
-function openPay(){
-  const url=(payPlan==="year"?(PAY_URL_YEAR||PAY_URL):(PAY_URL_MONTH||PAY_URL));
-  if(!url){toast("Оплата картой скоро","Пока Премиум активируется промокодом","image");return;}
-  try{window.open(url,"_blank","noopener");}catch(e){location.href=url;}
+async function openPay(){
+  var c=sbClient();
+  if(!c){toast("Секундочку","Соединяемся с сервером","refresh");return;}
+  var plan=(PAY&&PAY.plan)||payPlan||"month";
+  if(isGuest()||!(await supaLoggedIn())){pendingAfter="buy";go("auth");toast("Нужен вход","Войди, чтобы оформить Премиум","mail");return;}
+  toast("Готовлю оплату","Секунду...","refresh");
+  try{
+    var r=await c.functions.invoke("create-payment",{body:{plan:plan,return_url:location.href.split("#")[0].split("?")[0]}});
+    var url=r&&r.data&&r.data.url;
+    if(url){location.href=url;return;}
+    toast("Не получилось",esc((r&&r.data&&r.data.error)||(r&&r.error&&r.error.message)||"Попробуй ещё раз"),"image");
+  }catch(e){toast("Не получилось","Проверь соединение","image");}
 }
 function toPromo(){PAY={plan:payPlan};go("pay");}
 
